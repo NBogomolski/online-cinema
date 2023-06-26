@@ -41,7 +41,9 @@ function Home() {
                                         className="w-48 h-72 cursor-pointer"
                                         src={movie.primaryImage.url}
                                         alt="Failed to load"
-                                        onError={() => {}}
+                                        onError={(e) => {
+                                            e.target.src = '../../public/default-movie.jpg'
+                                        }}
                                         onClick={() =>
                                             navigate("/movies/" + movie.id)
                                         }
