@@ -7,7 +7,7 @@ function App() {
   return (
 	<BrowserRouter>
 		<Routes>
-			<Route index element={<Home />} />
+			<Route index element={<Home/>} />
 			{/* <Route path="dashboard" element={<Dashboard />} /> */}
 			{/* <Route path="*" element={<NoMatch />} /> */}
 		</Routes>

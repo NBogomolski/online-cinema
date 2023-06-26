@@ -1,77 +1,72 @@
 import '../styles/Home.sass'
 import axios from 'axios'
 import React, { useState, useEffect } from 'react';
-
+import {useNavigate} from 'react-router-dom'
+import Navbar from './Navbar';
 function Home() {
-    const [top100titles, setTop100titles] = useState([
-        {
-            _id: "63eef9c2244a27600bb64820",
-            id: "top1",
-            __v: 0,
-            description:
-                "Over the course of several years, two convicts form a friendship, seeking consolation and, eventually, redemption through basic compassion.",
-            director: ["Frank Darabont"],
-            genre: ["Drama"],
-            image: [
-                [
-                    "190",
-                    "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_QL75_UX190_CR0,0,190,281_.jpg",
-                ],
-                [
-                    "285",
-                    "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_QL75_UX285_CR0,1,285,422_.jpg",
-                ],
-                [
-                    "380",
-                    "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_QL75_UX380_CR0,1,380,562_.jpg",
-                ],
-            ],
-            imdbid: "tt0111161",
-            rank: 1,
-            rating: "9.3",
-            thumbnail:
-                "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UX67_CR0,0,67,98_AL_.jpg",
-            title: "The Shawshank Redemption",
-            writers: [
-                'Stephen King(based on the short novel "Rita Hayworth and the Shawshank Redemption" by)',
-                "Frank Darabont(screenplay by)",
-            ],
-            year: 1994,
-        },
-    ]);
-    const [pressReq, setPressReq] = useState(false);
-    useEffect(()=> {
+    const [topTitles, setTopTitles] = useState([]);
+    const navigate = useNavigate()
 
-    }, [pressReq])
+    useEffect(()=> {
+        const options = {
+            method: "GET",
+            url: "https://moviesdatabase.p.rapidapi.com/titles/?sort=pos.incr&list=top_rated_250&limit=50",
+            headers: {
+                "X-RapidAPI-Key":
+                    "f47abe3ee4msh40e9ceafbcb077dp1c2cd1jsn0109b5372666",
+                "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
+            },
+        };
+        axios.request(options).then((res) => {
+            console.log(res.data);
+            setTopTitles(res.data.results)
+
+        })
+    }, [])
     return (
-        <div className="container">
-            <h1 className='font-bold underline' onClick={() => setPressReq(true)}>request movies</h1>
-            {/* navbar */}
-            <div className='w-full border-black border-8 h-16'></div>
+        <div className="container flex flex-col justify-center items-center">
+            
+            <Navbar/>
             <div className='flex items-center justify-center flex-col'>
-                <h1 className='text-4xl'>Top 100 movies by IMDb</h1>
+                <h1 className='text-4xl py-4'>Top 100 movies by IMDb</h1>
                 <div className='list w-full'>
                     <ul className='flex flex-col items-center justify-center'>
-                        {top100titles.map((movie) => {
+                        {topTitles.map((movie) => {
                             return (
                                 <li
-                                    className="w-1/2 flex m-2"
-                                    key={movie.imdbid || movie._id}
+                                    className={`w-3/4 flex py-2 pl-4 ${
+                                        movie.position % 2 === 0
+                                            ? "bg-gray-200"
+                                            : "bg-gray-300"
+                                    }`}
+                                    key={movie.id || movie._id}
                                 >
                                     <img
-                                        className="w-48 h-72"
-                                        src={movie.image.at(-1).at(1)}
+                                        className="w-48 h-72 cursor-pointer"
+                                        src={movie.primaryImage.url}
                                         alt="Failed to load"
+                                        onError={(e) =>
+                                            (e.target.src =
+                                                "../assets/default-movie.jpg")
+                                        }
+                                        onClick={() =>
+                                            navigate("/movies/" + movie.id)
+                                        }
                                     />
-                                    <div className="p-2 pl-6 flex flex-col justify-start">
-                                        <h1 className="text-3xl">
-                                            {movie.title}
+                                    <div className="p-2 pl-6 flex flex-col justify-around">
+                                        <h1
+                                            className="text-3xl hover:underline cursor-pointer"
+                                            onClick={() =>
+                                                navigate("/movies/" + movie.id)
+                                            }
+                                        >
+                                            {movie.titleText.text}
                                         </h1>
                                         <p className="text-xl text-slate-500">
-                                            {movie.year}
+                                            {movie.releaseYear.year}
                                         </p>
                                         <div className="flex items-center">
-                                            <svg
+                                            {/* <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 height="1em"
                                                 viewBox="0 0 576 512"
@@ -81,8 +76,16 @@ function Home() {
                                             </svg>
                                             <h2 className="text-2xl">
                                                 {movie.rating}
+                                            </h2> */}
+                                            <h2 className="text-2xl">
+                                                №
+                                                {movie.position ||
+                                                    topTitles.indexOf(movie)}
                                             </h2>
                                         </div>
+                                        <button className=" hover:bg-white border z-10 border-solid border-black border-1 self-start h-8 w-40 rounded">
+                                            To watchlist
+                                        </button>
                                         <p className="text-l">
                                             {movie.description}
                                         </p>
@@ -97,12 +100,5 @@ function Home() {
     );
 }
 
-function pickRatingColor(ratingStr) {
-    const rating = Number(ratingStr)
-    if (rating >= 9.0) return 'green'
-    if (rating >= 8.5) return 'orange'
-    if (rating >= 8.0) return 'yellow'
-    return 'red'
-}
 
 export default Home;
