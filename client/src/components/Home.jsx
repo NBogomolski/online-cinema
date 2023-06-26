@@ -42,7 +42,7 @@ function Home() {
                                         src={movie.primaryImage.url}
                                         alt="Failed to load"
                                         onError={(e) => {
-                                            e.target.src = '../../public/default-movie.jpg'
+                                            e.target.src = '/default-movie.jpg'
                                         }}
                                         onClick={() =>
                                             navigate("/movies/" + movie.id)
