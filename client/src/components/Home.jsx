@@ -45,9 +45,10 @@ function Home() {
                                         className="w-48 h-72 cursor-pointer"
                                         src={movie.primaryImage.url}
                                         alt="Failed to load"
-                                        onError={(e) =>
-                                            (e.target.src =
-                                                "../assets/default-movie.jpg")
+                                        onError={() =>
+                                            {
+
+                                            }
                                         }
                                         onClick={() =>
                                             navigate("/movies/" + movie.id)
@@ -83,7 +84,12 @@ function Home() {
                                                     topTitles.indexOf(movie)}
                                             </h2>
                                         </div>
-                                        <button className=" hover:bg-white border z-10 border-solid border-black border-1 self-start h-8 w-40 rounded">
+                                        <button
+                                            className=" hover:bg-white border z-10 border-solid border-black border-1 self-start h-8 w-40 rounded"
+                                            onClick={(e) =>
+                                                postMovieToWatchlist(movie)
+                                            }
+                                        >
                                             To watchlist
                                         </button>
                                         <p className="text-l">
@@ -100,5 +106,9 @@ function Home() {
     );
 }
 
+function postMovieToWatchlist(movie) {
+    // console.log(movie)
+    localStorage.setItem(movie.id, JSON.stringify(movie))
+}
 
 export default Home;
