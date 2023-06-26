@@ -18,6 +18,19 @@ function Watchlist() {
         }
     }, []);
 
+    function removeFromWatchlist(movie) {
+        setWatchlistItems((oldList) => {
+            console.log(oldList.map(item => {
+                if (item.id !== movie.id) 
+                    return item
+                return
+            }))
+            return oldList
+        }
+        );
+        localStorage.removeItem(movie.id)
+    }
+
     return (
         <>
             <Navbar></Navbar>
@@ -26,14 +39,19 @@ function Watchlist() {
                     {watchlistItems.map((movie) => (
                         <li key={movie.id} className="flex flex-col mx-4">
                             <div>
-                                <div className="w-44 h-64 z-20 absolute bg-transparent hover:bg-gray-500/80 cursor-pointer"></div>
+                                <div
+                                    className="w-44 h-64 z-20 absolute bg-transparent hover:bg-gray-500/80 cursor-pointer"
+                                    onClick={() => removeFromWatchlist(movie)}
+                                ></div>
                                 <img
                                     className="w-44 h-64"
                                     src={movie.primaryImage.url}
                                     alt="No image"
                                 />
                             </div>
-                            <p>{movie.titleText.text}</p>
+                            <p className="truncate w-44">
+                                {movie.titleText.text}
+                            </p>
                             <p>{movie.releaseYear.year}</p>
                         </li>
                     ))}
@@ -42,5 +60,7 @@ function Watchlist() {
         </>
     );
 }
+
+
 
 export default Watchlist;

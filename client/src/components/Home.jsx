@@ -34,22 +34,14 @@ function Home() {
                         {topTitles.map((movie) => {
                             return (
                                 <li
-                                    className={`w-3/4 flex py-2 pl-4 ${
-                                        movie.position % 2 === 0
-                                            ? "bg-gray-200"
-                                            : "bg-gray-300"
-                                    }`}
+                                    className="w-3/4 flex py-2 pl-4 even:bg-gray-200 odd:bg-gray-300"
                                     key={movie.id || movie._id}
                                 >
                                     <img
                                         className="w-48 h-72 cursor-pointer"
                                         src={movie.primaryImage.url}
                                         alt="Failed to load"
-                                        onError={() =>
-                                            {
-
-                                            }
-                                        }
+                                        onError={() => {}}
                                         onClick={() =>
                                             navigate("/movies/" + movie.id)
                                         }
