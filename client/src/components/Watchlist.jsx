@@ -19,15 +19,7 @@ function Watchlist() {
     }, []);
 
     function removeFromWatchlist(movie) {
-        setWatchlistItems((oldList) => {
-            console.log(oldList.map(item => {
-                if (item.id !== movie.id) 
-                    return item
-                return
-            }))
-            return oldList
-        }
-        );
+        setWatchlistItems((oldList) => oldList.filter(item => item.id !== movie.id));
         localStorage.removeItem(movie.id)
     }
 
