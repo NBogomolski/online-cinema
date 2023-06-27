@@ -4,12 +4,16 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 function Home() {
+	const initWatchlist = () => {
+		if (!localStorage.getItem("watchlistMovies")) return [];
+    const watchlistStorage = JSON.parse(
+      localStorage.getItem("watchlistMovies")
+    );
+    return watchlistStorage;
+	}
+
   const [topMovies, setTopMovies] = useState([]);
-	const [watchlistItems, setWatchlistItems] = useState(() => {
-		if (!localStorage.getItem('watchlistMovies')) return []
-		const watchlistStorage = JSON.parse(localStorage.getItem('watchlistMovies'))
-		return watchlistStorage
-	});
+	const [watchlistItems, setWatchlistItems] = useState(initWatchlist());
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,35 +25,28 @@ function Home() {
         "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
       },
     };
-		const getMovies = async () => {
-			try {
+    const getMovies = async () => {
+      try {
         const response = await axios.request(options);
         console.log(response.data);
-				setTopMovies(response.data.results)
+        setTopMovies(response.data.results);
       } catch (error) {
         console.error(error);
       }
-		}
+    };
 
-		getMovies()
-
+    getMovies();
   }, []);
 
 	useEffect(() => {
-		localStorage.setItem(
-			"watchlistMovies",
-			JSON.stringify(watchlistItems)
-		);
-		console.log(watchlistItems);
-	}, [watchlistItems]);
+    localStorage.setItem("watchlistMovies", JSON.stringify(watchlistItems));
+    console.log(watchlistItems);
+  }, [watchlistItems]);
 
-	function postMovieToWatchlist(movie) {
-    // console.log(movie)
-    // localStorage.setItem('movies', JSON.stringify(movie));
-		if (!watchlistItems.find(item => item.id === movie.id))
-			setWatchlistItems([...watchlistItems, movie]);
-		else
-			alert('This title is already in your watchlist')
+  function postMovieToWatchlist(movie) {
+    if (!watchlistItems.find((item) => item.id === movie.id))
+      setWatchlistItems([...watchlistItems, movie]);
+    else alert("This title is already in your watchlist");
   }
 
   return (

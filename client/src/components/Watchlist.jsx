@@ -39,9 +39,9 @@ function Watchlist() {
                   className="w-44 h-64"
                   src={movie.primaryImage.url}
                   alt="No image"
-                  onError={(e) => {
-                    e.target.src = "/default-movie.jpg";
-                  }}
+                  // onError={(e) => {
+                  //   e.target.src = "/default-movie.jpg";
+                  // }}
                 />
               </div>
               <p className="truncate w-44">{movie.titleText.text}</p>
