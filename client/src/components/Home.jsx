@@ -66,9 +66,9 @@ function Home() {
                     className="w-48 h-72 cursor-pointer"
                     src={movie.primaryImage.url ? movie.primaryImage.url : '/default-movie.jpg'}
                     alt="Failed to load"
-                    // onError={(e) => {
-                    //   e.target.src = "/default-movie.jpg";
-                    // }}
+                    onError={(e) => {
+                      e.target.src = "/default-movie.jpg";
+                    }}
                     onClick={() => navigate("/movies/" + movie.id)}
                   />
                   <div className="p-2 pl-6 flex flex-col justify-around">
