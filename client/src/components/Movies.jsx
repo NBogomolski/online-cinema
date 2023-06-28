@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
-import YearPicker from "./YearPicker";
+import Sorting from "./Sorting";
 import YearRangeSelector from "./YearRangeSelector";
 import { useNavigate } from "react-router-dom";
 function Movies() {
@@ -12,6 +12,7 @@ function Movies() {
 	const [currPage, setCurrPage] = useState(1);
 	const [startYear, setStartYear] = useState(null)
 	const [endYear, setEndYear] = useState(null)
+	const [sortOrder, setSortOrder] = useState(null)
 	const navigate = useNavigate()
 	
 	useEffect(() => {
@@ -46,7 +47,7 @@ function Movies() {
         pickedGenre ? "&genre=" + pickedGenre : ""
       }${startYear ? "&startYear=" + startYear : ""}${
         endYear ? "&endYear=" + endYear : ""
-      }`,
+      }${sortOrder ? "&sort=" + sortOrder : ""}`,
       headers: {
         "X-RapidAPI-Key": "f47abe3ee4msh40e9ceafbcb077dp1c2cd1jsn0109b5372666",
         "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
@@ -55,7 +56,7 @@ function Movies() {
 		const getMovies = async () => {
 			try {
 				const response = await axios.request(options);
-				// console.log(response.data);
+				console.log(response.data);
 				setMostPopularMovies(response.data.results);
 				if (response.data.results.length === 0) setNoMoviesFound(true);
         else setNoMoviesFound(false);
@@ -69,38 +70,38 @@ function Movies() {
 		return () => {
 			setMostPopularMovies([])
 		}
-	}, [currPage, startYear, endYear]);
+	}, [currPage, pickedGenre, startYear, endYear, sortOrder]);
 
 
-	useEffect(() => {
-		const options = {
-      method: "GET",
-      url: `https://moviesdatabase.p.rapidapi.com/titles/?page=${currPage}&sort=pos.incr&list=most_pop_movies&limit=50&genre=${pickedGenre}${
-        startYear ? "&startYear=" + startYear : ""
-      }${endYear ? "&endYear=" + endYear : ""}`,
-      headers: {
-        "X-RapidAPI-Key": "f47abe3ee4msh40e9ceafbcb077dp1c2cd1jsn0109b5372666",
-        "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
-      },
-    };
-		const getMovies = async () => {
-			try {
-				const response = await axios.request(options);
-				// console.log(response.data.results.filter((item) => item !== null));
-				setMostPopularMovies(response.data.results);
-				if (response.data.results.length === 0) setNoMoviesFound(true);
-        else setNoMoviesFound(false);
-			} catch (error) {
-				console.error(error);
-			}
-		};
+	// useEffect(() => {
+	// 	const options = {
+  //     method: "GET",
+  //     url: `https://moviesdatabase.p.rapidapi.com/titles/?page=${currPage}&sort=pos.incr&list=most_pop_movies&limit=50&genre=${pickedGenre}${
+  //       startYear ? "&startYear=" + startYear : ""
+  //     }${endYear ? "&endYear=" + endYear : ""}`,
+  //     headers: {
+  //       "X-RapidAPI-Key": "f47abe3ee4msh40e9ceafbcb077dp1c2cd1jsn0109b5372666",
+  //       "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
+  //     },
+  //   };
+	// 	const getMovies = async () => {
+	// 		try {
+	// 			const response = await axios.request(options);
+	// 			// console.log(response.data.results.filter((item) => item !== null));
+	// 			setMostPopularMovies(response.data.results);
+	// 			if (response.data.results.length === 0) setNoMoviesFound(true);
+  //       else setNoMoviesFound(false);
+	// 		} catch (error) {
+	// 			console.error(error);
+	// 		}
+	// 	};
 
-		getMovies();
+	// 	getMovies();
 
-		return () => {
-			setMostPopularMovies([]);
-		};
-	}, [pickedGenre, startYear, endYear]);
+	// 	return () => {
+	// 		setMostPopularMovies([]);
+	// 	};
+	// }, [pickedGenre, startYear, endYear]);
 
 
 
@@ -131,9 +132,9 @@ function Movies() {
           );
         })}
       </div>
-      <div className="w-full ">
+      <div className="w-full flex flex-row items-center justify-center flex-wrap">
         <YearRangeSelector setStartYear={setStartYear} setEndYear={setEndYear} />
-				
+				{/* <Sorting setSortOrder={setSortOrder}/> */}
 			</div>
       {currPage > 1 && !noMoviesFound && (
         <div className="w-full flex justify-center">
