@@ -165,7 +165,7 @@ function Movies() {
                   }
                   alt="No image"
                   onClick={() => {
-                    navigate(`/movies/${movie.id}`, { replace: false });
+                    navigate(`/movies/${movie.id}`);
                   }}
                   onError={(e) => {
                     e.target.src = "/default-movie.jpg";
