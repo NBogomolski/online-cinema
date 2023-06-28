@@ -14,12 +14,10 @@ function App() {
 			<Route index element={<Home/>} />
 			<Route path="watchlist" element={<Watchlist />} />
 			<Route path='movies' element={<Movies/>}>
-				<Route path=':id' element={<Title/>}>
-					
-				</Route>
+				<Route path=':id' element={<Title/>}/>
 			</Route>
 			<Route path='series'>
-				<Route path=':id'element={<Title/>}/>
+				{/* <Route path=':id'element={<Title/>}/> */}
 			</Route>
 			<Route path="*" element={<NoMatch />} />
 		</Routes>
