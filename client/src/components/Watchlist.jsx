@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import React, { useState, useEffect } from "react";
 
@@ -9,6 +10,7 @@ function Watchlist() {
   };
 
   const [watchlistItems, setWatchlistItems] = useState(retrieveWatchlist());
+  const navigate = useNavigate()
 
   useEffect(() => {
     console.log(watchlistItems, 1);
@@ -30,10 +32,16 @@ function Watchlist() {
             <li key={movie.id} className="flex flex-col mx-4">
               <div>
                 <div
-                  className="w-44 h-64 z-20 absolute bg-transparent hover:bg-gray-500/80 cursor-pointer flex items-center justify-center"
+                  className="text-xl w-44 h-32 z-20 absolute bg-transparent hover:bg-red-500 cursor-pointer flex items-center justify-center -indent-80 hover:indent-0"
                   onClick={() => removeFromWatchlist(movie)}
                 >
-                  <p className="text-red-600 invisible hover:visible">Remove</p>
+                  Remove
+                </div>
+                <div
+                  className="text-xl w-44 h-32 z-0 top-52 absolute bg-transparent hover:bg-gray-500/80 cursor-pointer flex items-center justify-center -indent-80 hover:indent-0"
+                  onClick={() => navigate('/movies/'+movie.id)}
+                >
+                  View
                 </div>
                 <img
                   className="w-44 h-64"
