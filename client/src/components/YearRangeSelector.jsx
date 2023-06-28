@@ -18,6 +18,9 @@ function YearRangeSelector(props) {
             startYear || endYear ? "bg-black text-white" : "bg-white text-black"
           }`}
           onClick={() => {
+            if (startYear && endYear) {
+              //Probably best process that
+            }
 						if (startYear && startYear > 1900) {
 							props.setStartYear(startYear);
 							console.log(startYear);
