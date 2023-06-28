@@ -32,14 +32,14 @@ function Watchlist() {
             <li key={movie.id} className="flex flex-col mx-4">
               <div>
                 <div
-                  className="text-xl w-44 h-32 z-20 absolute bg-transparent hover:bg-red-500 cursor-pointer flex items-center justify-center -indent-80 hover:indent-0"
+                  className="text-xl w-44 h-32 z-20 absolute bg-transparent hover:bg-red-500 cursor-pointer flex items-center justify-center -indent-[9999px] hover:indent-0"
                   onClick={() => removeFromWatchlist(movie)}
                 >
                   Remove
                 </div>
                 <div
-                  className="text-xl w-44 h-32 z-0 top-52 absolute bg-transparent hover:bg-gray-500/80 cursor-pointer flex items-center justify-center -indent-80 hover:indent-0"
-                  onClick={() => navigate('/movies/'+movie.id)}
+                  className="text-xl w-44 h-32 z-0 top-52 absolute bg-transparent hover:bg-gray-500/80 cursor-pointer flex items-center justify-center -indent-[9999px] hover:indent-0"
+                  onClick={() => navigate("/movies/" + movie.id)}
                 >
                   View
                 </div>
